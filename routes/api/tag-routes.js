@@ -7,17 +7,17 @@ router.get('/', (req, res) => {
   // find all tags
   // be sure to include its associated Product data
 
-  Tag.findAll({
+  Tag.findAll(
+    {
     include: {
       model: Product,
       attributes: ["product_name","price", "stock", "category_id"]
       }
   })
-
   .then(Category => res.json(Category))
   .catch(err => {
     console.log(err);
-    res.status(400).json(err);
+    res.status(500).json(err);
   });
 
 });
@@ -68,13 +68,21 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
   // update a tag's name by its `id` value
 
-  Tag.update(req.body, {where: { id: req.params.id}})
-  .then(updatedVoteData => res.json(updatedVoteData))
-  .catch(err => {
+  Tag.update(req.body, {
+    where: { 
+      id: req.params.id
+    }
+  })
+  then(dbTagData => {
+    if(!dbTagData){
+      res.status(404).json({ message: "No Tag can be found with that ID"});
+      return;
+    }
+    res.json(dbTagData);
+  }).catch(err => {
     console.log(err);
     res.status(500).json(err);
-  });
-
+  })
 
 });
 
@@ -86,12 +94,12 @@ router.delete('/:id', (req, res) => {
       id: req.params.id
     }
   })
-    .then(dbPostData => {
-      if (!dbPostData) {
+    .then(dbTagData => {
+      if (!dbTagData) {
         res.status(404).json({ message: 'No post found with this id' });
         return;
       }
-      res.json(dbPostData);
+      res.json(dbTagData);
     })
     .catch(err => {
       console.log(err);
