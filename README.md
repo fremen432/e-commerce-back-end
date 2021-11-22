@@ -31,6 +31,7 @@ THEN I am able to successfully create, update, and delete data in my database
 
 ### Prerequisites
 
+- [NODE.JS](https://nodejs.org/en/)
 - [MySQL2](https://www.npmjs.com/package/mysql2)
 - [Sequelize](https://www.npmjs.com/package/sequelize)
 - [DotEnv](https://www.npmjs.com/package/dotenv)
